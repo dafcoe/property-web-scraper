@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "build": "rm -rf dist && tsc src/main.ts --outDir dist",
+    "build": "rm -rf dist && tsc src/main.ts --noEmit && node build.ts",
     "scrape": "node dist/main.js"
   },
   "dependencies": {
@@ -11,6 +11,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.5.4",
+    "esbuild": "^0.23.1",
     "typescript": "^5.5.3"
   }
 }
