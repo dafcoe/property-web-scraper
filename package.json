@@ -1,12 +1,12 @@
 {
   "name": "@dafcoe/property-web-scraper",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
-    "build": "rm -rf dist && tsc src/main.ts --noEmit && node build.ts",
-    "scrape": "node dist/main.js"
+    "build": "rm -rf dist && tsc src/main.ts --noEmit && node build.ts"
   },
   "dependencies": {
+    "commander": "^12.1.0",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {

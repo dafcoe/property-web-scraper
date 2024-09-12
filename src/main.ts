@@ -1,22 +1,20 @@
-import { getPropertyListItemsIdealista } from "./property-channel/idealista/idealista-property-list";
-import { getPropertyListItemsSupercasa } from "./property-channel/supercasa/supercasa-property-list";
-import { PropertyListItemInterface } from "./property-list/property-list.interface";
+import * as commander from 'commander';
+import { PropertyListItemInterface } from './property-list/property-list.interface';
+import { getChannelPropertyListItems } from './property-channel/property-channel';
 
-async function init() {
-    const propertyListItemsIdealista = await getPropertyListItemsIdealista(
-        'https://www.idealista.pt/comprar-casas/vila-real-de-santo-antonio/',
-    );
+const program = new commander.Command()
+  .version('0.0.1')
+  .description('Property Scraper - a simple web scraper for popular property aggregator websites')
+  .requiredOption('-u, --urls <urls>', 'the property aggregator(s) website url(s) (comma-separated values)', (urls) => urls.split(','))
+  .option('-f, --full', 'perform subsequent scrapes based on pagination', false)
+  .option('-o, --output <output>', 'the output format, either "list" or "count"', 'list')
+  .parse(process.argv);
 
-    const propertyListItemsSupercasa = await getPropertyListItemsSupercasa(
-        'https://supercasa.pt/comprar-casas/vila-real-de-santo-antonio',
-    );
+const { urls, full, output } = program.opts();
 
-    const propertyListItems: PropertyListItemInterface[] = [
-        ...propertyListItemsIdealista,
-        ...propertyListItemsSupercasa,
-    ];
+(async () => {
+  const propertyListItems: PropertyListItemInterface[] = await getChannelPropertyListItems(urls, full);
 
-    console.log(propertyListItems.length);
-}
+  console.log(output === 'count' ? propertyListItems.length : JSON.stringify(propertyListItems));
+})();
 
-init();
