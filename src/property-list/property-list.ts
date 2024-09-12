@@ -13,14 +13,14 @@ export async function getPropertyListItems(
     do {
         const scrapedPropertyList = await scrape(urlNormalizer(propertyList.nextPageUrl), extractRules);
 
-        propertyList = transformScrapedPropertyListToPropertyList(scrapedPropertyList);
+        propertyList = mapScrapedPropertyListToPropertyList(scrapedPropertyList);
         propertyListItems.push(...propertyList.items);
     } while (fullList && propertyList.nextPageUrl);
 
     return propertyListItems;
 }
 
-function transformScrapedPropertyListToPropertyList(scrapedPropertyList: string): PropertyListInterface {
+function mapScrapedPropertyListToPropertyList(scrapedPropertyList: string): PropertyListInterface {
     const { items, nextPageUrl } = JSON.parse(scrapedPropertyList);
 
     return {
